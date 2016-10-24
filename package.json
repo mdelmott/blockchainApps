@@ -37,8 +37,13 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp serve"
   },
-  "author": "",
+  "engines":{
+    "node": "6.7.0",
+    "npm": "3.10.3"
+  },
+  "author": "Martin Delmotte",
   "license": "ISC"
 }
