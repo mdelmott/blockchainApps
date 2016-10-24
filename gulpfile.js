@@ -8,7 +8,7 @@ var gulp = require('gulp'),
 
 gulp.task('serve', function() {
     nodemon({
-        script:"server/app.js"
+        script:"./server/app.js"
     });
 });
 
@@ -16,7 +16,7 @@ gulp.task('connect', function () {
     connect.server({
         port: 8000,
         name: 'TestApp',
-        root: 'client/dist'
+        root: './client/dist'
     });
 });
 

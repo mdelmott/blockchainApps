@@ -1,7 +1,7 @@
 ---
 applications:
-- name: sampleAngular
-  memory: 512M
+- name: blockchainTest2
+  memory: 256M
   instances: 1
   path: .
   command: npm start
