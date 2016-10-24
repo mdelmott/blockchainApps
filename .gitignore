@@ -1,6 +1,7 @@
-client/dist/
 .idea/
 node_modules/
+client/dist/
+client/.idea/
 server/#node.log#
 server/.idea/
 server/.node.log.swp
