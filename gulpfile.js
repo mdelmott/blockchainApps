@@ -42,7 +42,7 @@ gulp.task('browserify', function () {
 gulp.task('deploy', function () {
    connect.server({
        port: process.env.VCAP_APP_PORT || 8000,
-       name: 'sampleAngular',
+       name: 'blockchainTest2',
        root: './client/dist'
    });
 });
