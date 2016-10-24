@@ -1,0 +1,7 @@
+---
+applications:
+- name: sampleAngular
+  memory: 512M
+  instances: 1
+  path: .
+  command: npm start

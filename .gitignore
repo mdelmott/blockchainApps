@@ -1,0 +1,7 @@
+client/dist/
+.idea/
+node_modules/
+server/#node.log#
+server/.idea/
+server/.node.log.swp
+server/node.log

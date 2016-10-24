@@ -8,7 +8,7 @@ var gulp = require('gulp'),
 
 gulp.task('serve', function() {
     nodemon({
-        script:"nodeApp/app.js"
+        script:"server/app.js"
     });
 });
 
@@ -16,34 +16,34 @@ gulp.task('connect', function () {
     connect.server({
         port: 8000,
         name: 'TestApp',
-        root: 'angularApp/dist'
+        root: 'client/dist'
     });
 });
 
 gulp.task('initialize',function () {
-    gulp.src('./angularApp/src/assets/**')
-        .pipe(gulp.dest('./angularApp/dist/assets/'));
-    gulp.src('./angularApp/src/app/index.html')
-        .pipe(gulp.dest('./angularApp/dist/'));
-    gulp.src('./angularApp/src/app/**/Views/*')
+    gulp.src('./client/src/assets/**')
+        .pipe(gulp.dest('./client/dist/assets/'));
+    gulp.src('./client/src/app/index.html')
+        .pipe(gulp.dest('./client/dist/'));
+    gulp.src('./client/src/app/**/Views/*')
         .pipe(rename({dirname: ''}))
-        .pipe(gulp.dest('./angularApp/dist/views/'));
-    gulp.src('./angularApp/node_modules/bootstrap/dist/css/*.min.css')
-        .pipe(gulp.dest('./angularApp/dist/assets/css/'))
+        .pipe(gulp.dest('./client/dist/views/'));
+    gulp.src('./node_modules/bootstrap/dist/css/*.min.css')
+        .pipe(gulp.dest('./client/dist/assets/css/'))
 });
 
 gulp.task('browserify', function () {
-   return browserify('./angularApp/src/app/app.js')
+   return browserify('./client/src/app/app.js')
        .bundle()
        .pipe(source('bundle.js'))
-       .pipe(gulp.dest('./angularApp/dist/'));
+       .pipe(gulp.dest('./client/dist/'));
 });
 
 gulp.task('deploy', function () {
    connect.server({
        port: process.env.VCAP_APP_PORT || 8000,
        name: 'sampleAngular',
-       root: './angularApp/dist'
+       root: './client/dist'
    });
 });
 
