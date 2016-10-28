@@ -4,10 +4,10 @@ applications:
   memory: 256M
   instances: 1
   path: .
-  command: npm client
+  command: gulp deploy
 - name: blockchainServer
   memory: 256M
   instances: 1
   path: .
-  command: npm server
+  command: gulp serve
 
