@@ -1,4 +1,4 @@
-ANGULAR SAMPLE
+CLIENT APPLICATION
 
 To build the project, you just need to run these commands :  
 ``npm install``

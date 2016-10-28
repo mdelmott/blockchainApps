@@ -1,7 +1,13 @@
 ---
 applications:
-- name: blockchainTest2
+- name: blockchainClient
   memory: 256M
   instances: 1
   path: .
-  command: npm start
+  command: npm client
+- name: blockchainServer
+  memory: 256M
+  instances: 1
+  path: .
+  command: npm server
+
