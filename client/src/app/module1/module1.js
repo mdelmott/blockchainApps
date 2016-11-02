@@ -17,7 +17,7 @@ angular.module('module1', ['ngRoute', 'oc.lazyLoad', 'ui.bootstrap'])
     .config(function($routeProvider) {
         $routeProvider
             .when("/", {
-                templateUrl : "Views/module1.html",
+                templateUrl : "views/module1.html",
                 controller: "module1Ctrl",
                 resolve : {
                     lazy: ['$ocLazyLoad', function($ocLazyLoad) {
