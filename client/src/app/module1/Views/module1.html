@@ -1,6 +1,49 @@
-<div>
+<!--<div>
     <h1> HELLO <span ng-bind="user"></span> !!!!! </h1>
 </div>
 <div style="display:inline-block; min-height:290px;">
     <div uib-datepicker ng-model="dt" class="well well-sm" datepicker-options="options"></div>
-</div>
+</div>-->
+<form>
+    <fieldset>
+        <legend>Deploy</legend>
+        <label for="peer"> Peer : </label>
+        <select name="peer" ng-model="deployObj.peer">
+            <option value="0">Validating Peer 0</option>
+            <option value="1">Validating Peer 1</option>
+            <option value="3">Validating Peer 2</option>
+            <option value="2">Validating Peer 3</option>
+        </select>
+        <label for="chaincodeUrl"> Chaincode Url : </label>
+        <input type="text" name="chaincodeUrl" ng-model="deployObj.chaincodeUrl">
+        <!--<label for="chaincodeType"> Chaincode Type : </label>
+        <select name="peerUrl" ng-model="deployObj.chaincodeType">
+            <option value="1">Go</option>
+            <option value="4">Java</option>
+        </select>-->
+        <label for="deployFunction"> Function : </label>
+        <input type="text" name="deployFunction" ng-model="deployObj.function"><br>
+        <label> Args : </label>
+        Arg 1 : <input type="text" ng-model="deployObj.args[0]">
+        Value 1 : <input type="text" ng-model="deployObj.args[1]"><br>
+        Arg 2 : <input type="text" ng-model="deployObj.args[2]">
+        Value 2 : <input type="text" ng-model="deployObj.args[3]">
+        <input type="submit" value="Deploy" ng-click="deploy()">
+    </fieldset>
+    <fieldset>
+        <legend>Query</legend>
+        <label for="queryFunction"> Function : </label>
+        <input type="text" name="queryFunction" ng-model="queryObj.function">
+        <label for="queryArgs"> Args : </label>
+        <input type="text" name="queryArgs" ng-model="queryObj.args">
+        <input type="submit" value="Query" ng-click="query()">
+    </fieldset>
+    <fieldset>
+        <legend>Invoke</legend>
+        <label for="invokeFunction"> Function : </label>
+        <input type="text" name="invokeFunction" ng-model="invokeObj.function">
+        <label for="invokeArgs"> Args : </label>
+        <input type="text" name="invokeArgs" ng-model="invokeObj.args">
+        <input type="submit" value="Invoke" ng-click="invoke()">
+    </fieldset>
+</form>

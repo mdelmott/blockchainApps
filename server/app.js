@@ -4,6 +4,8 @@
 'use strict';
 
 var express =  require('express');
+var Q = require('q');
+var IBC = require('ibm-blockchain-js');
 var Util = require('./util/util');
 var Chaincode = require('./chaincode');
 var Deploy = require('./deploy/deploy');
@@ -12,7 +14,9 @@ var Invoke = require('./invoke/invoke');
 
 var app = express();
 var router = express.Router();
-var util = new Util(app);
+var ibc = new IBC();
+var util = new Util(app,ibc);
+
 var chaincode;
 var deploy;
 var query;
@@ -22,13 +26,27 @@ app = util.config();
 app.use('/', router);
 
 router.use('/deploy', function(req, res){
-    chaincode = new Chaincode(req.peerUrl,req.chaincodePath,req.chaincodeType);
-    deploy = new Deploy(chaincode, req.function, req.args);
-    var response = deploy.deploy().then(function(r){
-        chaincode.chaincodeId = r.result.message;
-        console.log('chaincode deployed. chaincodeId : %s', chaincode.chaincodeId);
+
+    var deferred = Q.defer();
+
+    util.configChaincode(req.body.peer,req.body.chaincodeUrl, function(err,cc){
+       if(err != null){
+           deferred.reject(err);
+       }else{
+           deferred.resolve(cc);
+       }
     });
-    util.simpleJsonResponse(res, response);
+
+    deferred.promise.then(function(cc){
+        cc.deploy(req.body.function, req.body.args, null, null, function(chaincode_deployed) {
+            cc.details.deployed_name = chaincode_deployed.details.result.message;
+            chaincode = cc;
+            console.log(chaincode);
+            res.send(chaincode_deployed.details.result.message);
+        });
+    },function (err) {
+        res.send(err);
+    });
 });
 
 /*router.use('/deploy', function(req,res){
@@ -43,8 +61,14 @@ router.use('/deploy', function(req, res){
 });*/
 
 router.use('/query', function (req, res) {
-    query = new Query(chaincode, req.function, req.args);
-    util.simpleJsonResponse(res,query.query());
+
+    console.log(chaincode);
+
+    //query = new Query(chaincode, req.params.function, req.params.args);
+    //util.simpleJsonResponse(res,query.query());
+    chaincode.query.read(["a"],function(chaincode_query){
+       console.log(chaincode_query);
+    });
 });
 
 /*router.use('/query', function (req, res){
@@ -53,7 +77,7 @@ router.use('/query', function (req, res) {
 });*/
 
 router.use('/invoke', function(req,res) {
-    invoke = new Invoke(chaincode, req.function, req.args);
+    invoke = new Invoke(chaincode, req.params.function, req.params.args);
     util.simpleJsonResponse(res, invoke.invoke());
 });
 

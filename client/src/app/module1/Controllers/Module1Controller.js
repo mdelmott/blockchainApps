@@ -1,6 +1,8 @@
 module.exports = function($scope,
+                          $http,
+                          $httpParamSerializerJQLike,
                           service2Serv){
-    $scope.user = "Martin";
+    /*$scope.user = "Martin";
 
     $scope.today = function() {
         $scope.dt = new Date();
@@ -65,9 +67,71 @@ module.exports = function($scope,
         }
 
         return '';
-    }
+    }*/
+
+    $scope.deployObj = {
+        peer : "1",
+        chaincodeUrl : "https://github.com/mdelmott/blockchainChaincodes",
+        function : "init",
+        args : ["a","100","b","200"]
+    };
+
+    $scope.queryObj = {
+        function : "",
+        args: [""]
+    };
+
+    $scope.invokeObj = {
+        function : "",
+        args : [""]
+    };
+
+    $scope.deploy = function(){
+        $http({
+            url: "http://localhost:3000/deploy",
+            method: 'POST',
+            data: $httpParamSerializerJQLike($scope.deployObj),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function successCallback(response){
+                console.log(response);
+        }, function errorCallback(error) {
+                console.log(error);
+        });
+    };
+
+    $scope.query = function(){
+        $http({
+            url: "http://localhost:3000/query",
+            method: 'POST',
+            data: $httpParamSerializerJQLike($scope.queryObj),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function successCallback(response){
+            console.log(response);
+        }, function errorCallback(error) {
+            console.log(error);
+        });
+    };
+
+    $scope.invoke = function(){
+        $http({
+            url: "http://localhost:3000/invoke",
+            method: 'POST',
+            data: $httpParamSerializerJQLike($scope.invokeObj),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function successCallback(response){
+            console.log(response);
+        }, function errorCallback(error) {
+            console.log(error);
+        });
+    };
 
     $scope.helloWorld = function(){
         return "Hello World!!";
-    }
+    };
 };

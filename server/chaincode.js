@@ -11,7 +11,7 @@ module.exports = class Chaincode {
         this.chaincodeType = chaincodeType;
         this.chaincodeId = '';
         this.deployed = false;
-    }
+    };
 
     request(functionName, functionArgs, method, paramChaincodeID) {
         return request({
@@ -39,4 +39,5 @@ module.exports = class Chaincode {
             console.log(error.message);
         });
     };
+
 };
