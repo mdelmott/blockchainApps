@@ -36,6 +36,12 @@ module.exports = class Util {
             console.log('Express server listening on port 3000 in dev mode');
         });
 
+        this.app.use(function(req, res, next) {
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+            next();
+        });
+
         return this.app;
     }
 

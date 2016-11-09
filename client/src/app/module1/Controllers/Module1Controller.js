@@ -95,9 +95,11 @@ module.exports = function($scope,
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(function successCallback(response){
-                console.log(response);
+            $scope.result = response.data;
         }, function errorCallback(error) {
-                console.log(error);
+            console.log("Error : ");
+            console.log(error);
+            $scope.result = error;
         });
     };
 

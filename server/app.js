@@ -28,6 +28,7 @@ app.use('/', router);
 router.use('/deploy', function(req, res){
 
     var deferred = Q.defer();
+    console.log(req.body);
 
     util.configChaincode(req.body.peer,req.body.chaincodeUrl, function(err,cc){
        if(err != null){
@@ -39,10 +40,14 @@ router.use('/deploy', function(req, res){
 
     deferred.promise.then(function(cc){
         cc.deploy(req.body.function, req.body.args, null, null, function(chaincode_deployed) {
-            cc.details.deployed_name = chaincode_deployed.details.result.message;
-            chaincode = cc;
-            console.log(chaincode);
-            res.send(chaincode_deployed.details.result.message);
+            if(chaincode_deployed.details.result != null){
+                cc.details.deployed_name = chaincode_deployed.details.result.message;
+                chaincode = cc;
+                console.log(chaincode);
+                res.send(chaincode_deployed.details.result.message);
+            }else{
+                res.send("error during chaincode deployment");
+            }
         });
     },function (err) {
         res.send(err);
