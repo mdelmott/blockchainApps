@@ -11,9 +11,9 @@ var fs = require('fs');
 
 module.exports = class Util {
 
-    constructor(app, ibc) {
+    constructor(app, hfc) {
         this.app = app;
-        this.ibc = ibc;
+        this.hfc = hfc;
     }
 
     config() {
@@ -36,7 +36,7 @@ module.exports = class Util {
             console.log('Express server listening on port 3000 in dev mode');
         });
 
-        this.app.use(function (req, res, next) {
+        this.app.use(function(req, res, next) {
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             next();
@@ -45,39 +45,46 @@ module.exports = class Util {
         return this.app;
     }
 
-    configChaincode(peer, chaincodeUrl, callback) {
+    configChaincode(peer, callback) {
 
-        var chaincode;
+        var chain, network, peers, users, isHSBN, network_id, ca_url, uuid, certFile, cert;
+
+        chain = this.hfc.newChain("mychain");
 
         try{
-            var manual = JSON.parse(fs.readFileSync(path.join(__dirname, '../creds.json'), 'utf8'));
-            var peers = manual.credentials.peers;
-            console.log('loading hardcoded peers');
-            var users = null;
-            if(manual.credentials.users) users = manual.credentials.users;
-            console.log('loading hardcoded users');
+            network = JSON.parse(fs.readFileSync(path.join(__dirname, '../creds.json'), 'utf8'));
+            if (network.credentials) network = network.credentials;
         }
         catch(err){
-            return "error : " + err;
+            callback(err);
         }
 
-        var options =   {
-            network:{
-                peers:  [peers[peer]],
-                users:  [users[0]]
-            },
-            chaincode:{
-                zip_url: 'https://github.com/ibm-blockchain/marbles-chaincode/archive/master.zip',
-                unzip_dir: 'marbles-chaincode-master/part2',
-                git_url: chaincodeUrl
-            }
-        };
+        peers = network.peers;
+        users = network.users;
+        isHSBN = peers[0].discovery_host.indexOf('secure') >= 0 ? true : false;
+        network_id = Object.keys(network.ca);
+        ca_url = "grpcs://" + network.ca[network_id].discovery_host + ":" + network.ca[network_id].discovery_port;
+        uuid = network_id[0].substring(0, 8);
+        chain.setKeyValStore(this.hfc.newFileKeyValStore(__dirname + '/keyValStore-' + uuid));
 
-        this.ibc.load(options, function(err, cc){
-           if(err != null){
+        if (isHSBN) {
+            certFile = '../0.secure.blockchain.ibm.com.cert';
+        }else{
+            certFile = '../us.blockchain.ibm.com.cert';
+        }
+
+        cert = fs.readFileSync(path.join(__dirname, certFile), 'utf8');
+        chain.setMemberServicesUrl(ca_url, {pem: cert});
+        for (var i = 0; i < peers.length; i++) {
+            chain.addPeer("grpcs://" + peers[i].discovery_host + ":" + peers[i].discovery_port, {pem: cert});
+        }
+
+        chain.enroll(users[1].enrollId, users[1].enrollSecret, function (err, admin) {
+           if(err){
                callback(err);
            }else{
-               callback(null,cc);
+               chain.setRegistrar(admin);
+               callback(null,admin);
            }
         });
     }

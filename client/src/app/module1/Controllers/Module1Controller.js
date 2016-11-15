@@ -70,7 +70,7 @@ module.exports = function($scope,
     }*/
 
     $scope.deployObj = {
-        peer : "1",
+        peer : "0",
         chaincodeUrl : "https://github.com/mdelmott/blockchainChaincodes",
         function : "init",
         args : ["a","100","b","200"]
@@ -78,17 +78,17 @@ module.exports = function($scope,
 
     $scope.queryObj = {
         function : "",
-        args: [""]
+        args: ["a"]
     };
 
     $scope.invokeObj = {
         function : "",
-        args : [""]
+        args : ["a","b","10"]
     };
 
     $scope.deploy = function(){
         $http({
-            url: "http://blockchainserver.mybluemix.net/deploy",
+            url: "http://localhost:3000/deploy",
             method: 'POST',
             data: $httpParamSerializerJQLike($scope.deployObj),
             headers: {
@@ -105,7 +105,7 @@ module.exports = function($scope,
 
     $scope.query = function(){
         $http({
-            url: "http://blockchainserver.mybluemix.net/query",
+            url: "http://localhost:3000/query",
             method: 'POST',
             data: $httpParamSerializerJQLike($scope.queryObj),
             headers: {
@@ -120,7 +120,7 @@ module.exports = function($scope,
 
     $scope.invoke = function(){
         $http({
-            url: "http://blockchainserver.mybluemix.net/invoke",
+            url: "http://localhost:3000/invoke",
             method: 'POST',
             data: $httpParamSerializerJQLike($scope.invokeObj),
             headers: {
