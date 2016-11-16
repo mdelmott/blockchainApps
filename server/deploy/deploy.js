@@ -2,19 +2,50 @@
  * Created by martin on 10/25/16.
  */
 
-var request = require('request-promise');
+var Q = require('q');
 
 module.exports = class Deploy {
 
-    constructor(chaincode, functionName, functionArgs) {
-        this.chaincode = chaincode;
-        this.functionName = functionName;
-        this.functionArgs = functionArgs;
-        this.method = 'deploy';
-        this.paramChaincodeID = {"path": chaincode.chaincodePath};
+    constructor(util, body) {
+        this.util = util;
+        this.peer = body.peer;
+        this.chaincodeUrl = body.chaincodeUrl;
+        this.func = body.function;
+        this.args = body.args;
+        this.user = {
+            enrollId : body.enrollId,
+            enrollSecret : body.enrollSecret,
+            username : body.enrollId,
+            secret : body.enrollSecret
+        };
+
     }
 
-    deploy() {
-        return this.chaincode.request(this.functionName, this.functionArgs, this.method, this.paramChaincodeID);
+    deploy(callback){
+
+        var deferred = Q.defer();
+        var t = this;
+
+        this.util.configChaincode(this.peer, this.user, this.chaincodeUrl, function(err,cc){
+            if(err != null){
+                deferred.reject(err);
+            }else{
+                var object = {cc : cc, func : t.func, args : t.args};
+                deferred.resolve(object);
+            }
+        });
+
+        deferred.promise.then(function(obj){
+            obj.cc.deploy(obj.func, obj.args, null, null, function(chaincode_deployed) {
+                if(chaincode_deployed.details.result != null){
+                    obj.cc.details.deployed_name = chaincode_deployed.details.result.message;
+                    callback(null, obj.cc);
+                }else{
+                    callback("error during chaincode deployment");
+                }
+            });
+        },function (err) {
+            callback(err);
+        });
     }
 };

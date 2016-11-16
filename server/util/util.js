@@ -45,28 +45,24 @@ module.exports = class Util {
         return this.app;
     }
 
-    configChaincode(peer, chaincodeUrl, callback) {
+    configChaincode(peer, user, chaincodeUrl, callback) {
 
-        var chaincode;
+        var chaincode, manual, peers, options;
 
         try{
-            var manual = JSON.parse(fs.readFileSync(path.join(__dirname, '../creds.json'), 'utf8'));
-            var peers = manual.credentials.peers;
-            console.log('loading hardcoded peers');
-            var users = null;
-            if(manual.credentials.users) users = manual.credentials.users;
-            console.log('loading hardcoded users');
+            manual = JSON.parse(fs.readFileSync(path.join(__dirname, '../creds.json'), 'utf8'));
+            peers = manual.credentials.peers;
         }
         catch(err){
-            return "error : " + err;
+            callback(err);
         }
 
-        var options =   {
-            network:{
-                peers:  [peers[peer]],
-                users:  [users[0]]
+        options = {
+            network : {
+                peers : [peers[peer]],
+                users : [user]
             },
-            chaincode:{
+            chaincode : {
                 zip_url: 'https://github.com/ibm-blockchain/marbles-chaincode/archive/master.zip',
                 unzip_dir: 'marbles-chaincode-master/part2',
                 git_url: chaincodeUrl
@@ -74,20 +70,11 @@ module.exports = class Util {
         };
 
         this.ibc.load(options, function(err, cc){
-           if(err != null){
-               callback(err);
-           }else{
-               callback(null,cc);
-           }
-        });
-    }
-
-    simpleJsonResponse(res,promise) {
-        promise.then(function (response) {
-            res.json(response);
-        }).catch(function(error){
-            res.status(500).json(error);
+            if(err != null){
+                callback(err);
+            }else{
+                callback(null,cc);
+            }
         });
     };
-
 };

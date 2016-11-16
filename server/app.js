@@ -4,54 +4,39 @@
 'use strict';
 
 var express =  require('express');
-var Q = require('q');
 var IBC = require('ibm-blockchain-js');
 var Util = require('./util/util');
+var Deploy = require('./deploy/deploy');
 
 var app = express();
 var router = express.Router();
 var ibc = new IBC();
-var util = new Util(app,ibc);
+var util = new Util(app, ibc);
 
 var chaincode;
+var deploy;
+
 
 app = util.config();
 app.use('/', router);
 
 router.use('/deploy', function(req, res){
-
-    var deferred = Q.defer();
-
-    util.configChaincode(req.body.peer,req.body.chaincodeUrl, function(err,cc){
-       if(err != null){
-           deferred.reject(err);
-       }else{
-           deferred.resolve(cc);
-       }
-    });
-
-    deferred.promise.then(function(cc){
-        cc.deploy(req.body.function, req.body.args, null, null, function(chaincode_deployed) {
-            if(chaincode_deployed.details.result != null){
-                cc.details.deployed_name = chaincode_deployed.details.result.message;
-                chaincode = cc;
-                res.send(chaincode_deployed.details.result.message);
-            }else{
-                res.send("error during chaincode deployment");
-            }
-        });
-    },function (err) {
-        res.send(err);
+    deploy = new Deploy(util, req.body);
+    deploy.deploy(function(err,cc){
+        if(err){
+            res.status(500).send(err);
+        }else{
+            chaincode = cc;
+            res.send(cc.details.deployed_name);
+        }
     });
 });
 
 router.use('/query', function (req, res) {
     chaincode.query.read(req.body.args, function(err, chaincode_query){
        if(err != null){
-           res.statusCode = "500";
-           res.send(err);
+           res.status(500).send(err);
        }else{
-           res.statusCode = "200";
            res.send(chaincode_query);
        }
     });
@@ -60,10 +45,8 @@ router.use('/query', function (req, res) {
 router.use('/invoke', function(req,res) {
     chaincode.invoke.write(req.body.args,function(err,chaincode_invoke){
        if(err != null){
-           res.statusCode = "500";
-           res.send(err);
+           res.status(500).send(err);
        }else{
-           res.statusCode = "200";
            res.send(chaincode_invoke);
        }
     });

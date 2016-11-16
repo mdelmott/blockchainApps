@@ -1,4 +1,17 @@
 <form>
+    <!--<fieldset>
+        <legend>Register</legend>
+        <label for="peer"> Peer : </label>
+        <select name="peer" ng-model="registerObj.peer">
+            <option value="2">Validating Peer 0</option>
+            <option value="0">Validating Peer 1</option>
+            <option value="1">Validating Peer 2</option>
+            <option value="3">Validating Peer 3</option>
+        </select>
+        EnrollID : <input type="text" ng-model="registerObj.enrollId"><br>
+        EnrollSecret : <input type="text" ng-model="registerObj.enrollSecret"><br>
+        <input type="submit" value="Register" ng-click="register()">
+    </fieldset>-->
     <fieldset>
         <legend>Deploy</legend>
         <label for="peer"> Peer : </label>
@@ -8,6 +21,8 @@
             <option value="1">Validating Peer 2</option>
             <option value="3">Validating Peer 3</option>
         </select>
+        EnrollID : <input type="text" ng-model="deployObj.enrollId"><br>
+        EnrollSecret : <input type="text" ng-model="deployObj.enrollSecret"><br>
         <label for="chaincodeUrl"> Chaincode Url : </label>
         <input type="text" name="chaincodeUrl" ng-model="deployObj.chaincodeUrl">
         <label for="deployFunction"> Function : </label>
