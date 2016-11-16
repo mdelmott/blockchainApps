@@ -13,7 +13,7 @@ angular.module('TestApp', ['module1', 'module2', 'error', 'environment'])
 
         envServiceProvider.config({
             domains: {
-                staging: ['mybluemix.net'],
+                staging: ['blockchainclient.mybluemix.net'],
                 development: ['localhost', 'dev.local']
             },
             vars: {
