@@ -1,3 +1,20 @@
-<div>
-    Module 2 : test !!
-</div>
+<form>
+    <fieldset>
+        <legend>Query</legend>
+        <label for="queryFunction"> Function : </label>
+        <input type="text" name="queryFunction" ng-model="queryObj.function">
+        <label> Args : </label>
+        Arg 1 : <input type="text" ng-model="queryObj.args[0]">
+        <input type="submit" value="Query" ng-click="query()">
+    </fieldset>
+    <fieldset>
+        <legend>Invoke</legend>
+        <label for="invokeFunction"> Function : </label>
+        <input type="text" name="invokeFunction" ng-model="invokeObj.function">
+        <label> Args : </label>
+        Arg 1 : <input type="text" ng-model="invokeObj.args[0]">
+        Arg 2 : <input type="text" ng-model="invokeObj.args[1]">
+        Value : <input type="text" ng-model="invokeObj.args[2]">
+        <input type="submit" value="Invoke" ng-click="invoke()">
+    </fieldset>
+</form>

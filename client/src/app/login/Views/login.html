@@ -1,0 +1,25 @@
+<form>
+    <fieldset>
+        <legend>Deploy</legend>
+        <label for="peer"> Peer : </label>
+        <select name="peer" ng-model="deployObj.peer">
+            <option value="2">Validating Peer 0</option>
+            <option value="0">Validating Peer 1</option>
+            <option value="1">Validating Peer 2</option>
+            <option value="3">Validating Peer 3</option>
+        </select>
+        EnrollID : <input type="text" ng-model="deployObj.enrollId"><br>
+        EnrollSecret : <input type="text" ng-model="deployObj.enrollSecret"><br>
+        <label for="chaincodeUrl"> Chaincode Url : </label>
+        <input type="text" name="chaincodeUrl" ng-model="deployObj.chaincodeUrl">
+        <label for="deployFunction"> Function : </label>
+        <input type="text" name="deployFunction" ng-model="deployObj.function"><br>
+        <label> Args : </label>
+        Arg 1 : <input type="text" ng-model="deployObj.args[0]">
+        Value 1 : <input type="text" ng-model="deployObj.args[1]"><br>
+        Arg 2 : <input type="text" ng-model="deployObj.args[2]">
+        Value 2 : <input type="text" ng-model="deployObj.args[3]">
+        <input type="submit" value="Deploy" ng-click="deploy()">
+        <h2 ng-bind="result"></h2>
+    </fieldset>
+</form>

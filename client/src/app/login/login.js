@@ -5,21 +5,20 @@ require('angular-ui-bootstrap');
 
 
 //Controller
-var module1Ctrl = require('./Controllers/Module1Controller');
+var loginCtrl = require('./Controllers/LoginController');
 
 //Services
-var service2Serv = require('./Services/service2');
 
 //Directives
 
 
 //Config
-angular.module('module1', ['ngRoute', 'oc.lazyLoad', 'ui.bootstrap'])
+angular.module('login', ['ngRoute', 'oc.lazyLoad', 'ui.bootstrap'])
     .config(function($routeProvider) {
         $routeProvider
             .when("/", {
-                templateUrl : "views/module1.html",
-                controller: "module1Ctrl",
+                templateUrl : "views/login.html",
+                controller: "loginCtrl",
                 resolve : {
                     lazy: ['$ocLazyLoad', function($ocLazyLoad) {
                         return $ocLazyLoad.load([{
@@ -32,5 +31,4 @@ angular.module('module1', ['ngRoute', 'oc.lazyLoad', 'ui.bootstrap'])
                 }
             })
     })
-    .controller('module1Ctrl', module1Ctrl)
-    .service('service2Serv', service2Serv);
+    .controller('loginCtrl', loginCtrl);
