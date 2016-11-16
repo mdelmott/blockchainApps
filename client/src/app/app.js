@@ -13,15 +13,15 @@ angular.module('TestApp', ['module1', 'module2', 'error', 'environment'])
 
         envServiceProvider.config({
             domains: {
-                development: ['localhost', 'dev.local'],
-                staging: ['mybluemix.net']
+                staging: ['mybluemix.net'],
+                development: ['localhost', 'dev.local']
             },
             vars: {
-                development: {
-                    serverUrl: 'http://localhost:3000/',
-                },
                 staging: {
                     serverUrl: 'http://blockchainserver.mybluemix.net/',
+                },
+                development: {
+                    serverUrl: 'http://localhost:3000/',
                 }
             }
         });
