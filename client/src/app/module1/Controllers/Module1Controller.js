@@ -1,8 +1,7 @@
 module.exports = function($scope,
                           $http,
                           $httpParamSerializerJQLike,
-                          envService,
-                          service2Serv){
+                          envService){
 
 
     $scope.deployObj = {
@@ -26,12 +25,8 @@ module.exports = function($scope,
 
     $scope.deploy = function(){
 
-        console.log("environment : ");
-        console.log(envService.get());
-        console.log("serverUrl : ");
-        console.log(envService.read('serverUrl'));
-        /*$http({
-            url: "http://localhost:3000/deploy",
+        $http({
+            url: envService.read('serverUrl') + "deploy",
             method: 'POST',
             data: $httpParamSerializerJQLike($scope.deployObj),
             headers: {
@@ -43,12 +38,12 @@ module.exports = function($scope,
             console.log("Error : ");
             console.log(error);
             $scope.result = error;
-        });*/
+        });
     };
 
     $scope.query = function(){
         $http({
-            url: "http://localhost:3000/query",
+            url: envService.read('serverUrl') + "query",
             method: 'POST',
             data: $httpParamSerializerJQLike($scope.queryObj),
             headers: {
@@ -63,7 +58,7 @@ module.exports = function($scope,
 
     $scope.invoke = function(){
         $http({
-            url: "http://localhost:3000/invoke",
+            url: envService.read('serverUrl') + "invoke",
             method: 'POST',
             data: $httpParamSerializerJQLike($scope.invokeObj),
             headers: {
