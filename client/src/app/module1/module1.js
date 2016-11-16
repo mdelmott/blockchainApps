@@ -3,6 +3,7 @@ require('angular-route');
 require('oclazyload');
 require('angular-ui-bootstrap');
 
+
 //Controller
 var module1Ctrl = require('./Controllers/Module1Controller');
 

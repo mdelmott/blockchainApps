@@ -1,13 +1,9 @@
 module.exports = function($scope,
                           $http,
                           $httpParamSerializerJQLike,
+                          envService,
                           service2Serv){
 
-    /*$scope.registerObj = {
-        peer : "2",
-        enrollId : "WebAppAdmin",
-        enrollSecret: "7b17d187da"
-    };*/
 
     $scope.deployObj = {
         peer : "0",
@@ -28,26 +24,13 @@ module.exports = function($scope,
         args : ["a","b","10"]
     };
 
-    /*$scope.register = function () {
-        $http({
-            url: "http://localhost:3000/register",
-            method: 'POST',
-            data: $httpParamSerializerJQLike($scope.registerObj),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }).then(function successCallback(response){
-            console.log("Response : ");
-            console.log(response);
-        }, function errorCallback(error) {
-            console.log("Error : ");
-            console.log(error);
-            $scope.result = error;
-        });
-    };*/
-
     $scope.deploy = function(){
-        $http({
+
+        console.log("environment : ");
+        console.log(envService.get());
+        console.log("serverUrl : ");
+        console.log(envService.read('serverUrl'));
+        /*$http({
             url: "http://localhost:3000/deploy",
             method: 'POST',
             data: $httpParamSerializerJQLike($scope.deployObj),
@@ -60,7 +43,7 @@ module.exports = function($scope,
             console.log("Error : ");
             console.log(error);
             $scope.result = error;
-        });
+        });*/
     };
 
     $scope.query = function(){
