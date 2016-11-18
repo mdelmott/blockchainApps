@@ -1,12 +1,12 @@
 module.exports = function ($scope,
+                           $location,
                            envService,
                            httpRequest) {
 
     $scope.deployObj = {
-        peer: "0",
-        enrollId: "user_type1_2",
-        enrollSecret: "95aa694feb",
-        chaincodeUrl: "https://github.com/mdelmott/blockchainChaincodes",
+        enrollId: "",
+        enrollSecret: "",
+        chaincodeUrl: "https://github.com/mdelmott/blockchainChaincodes/go/src/chaincode1",
         function: "init",
         args: ["a", "100", "b", "200"]
     };
@@ -15,11 +15,12 @@ module.exports = function ($scope,
 
         httpRequest.post(envService.read('serverUrl') + "deploy", $scope.deployObj)
             .then(function successCallback(response) {
-                $scope.result = response.data;
+                console.log(response);
+                $location.path('/module2');
             }, function errorCallback(error) {
                 console.log("Error : ");
                 console.log(error);
-                $scope.result = error;
+                $scope.error = error.data.details.Error;
             });
     };
 

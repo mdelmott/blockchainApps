@@ -2,13 +2,12 @@
  * Created by martin on 10/25/16.
  */
 
-var Q = require('q');
+const Q = require('q');
 
 module.exports = class Deploy {
 
     constructor(util, body) {
         this.util = util;
-        this.peer = body.peer;
         this.chaincodeUrl = body.chaincodeUrl;
         this.func = body.function;
         this.args = body.args;
@@ -23,14 +22,14 @@ module.exports = class Deploy {
 
     deploy(callback){
 
-        var deferred = Q.defer();
-        var t = this;
+        let deferred = Q.defer();
+        let t = this;
 
-        this.util.configChaincode(this.peer, this.user, this.chaincodeUrl, function(err,cc){
+        this.util.configChaincode(this.user, this.chaincodeUrl, function(err,cc){
             if(err != null){
                 deferred.reject(err);
             }else{
-                var object = {cc : cc, func : t.func, args : t.args};
+                let object = {cc : cc, func : t.func, args : t.args};
                 deferred.resolve(object);
             }
         });

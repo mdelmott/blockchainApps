@@ -2,12 +2,12 @@
  * Created by martin on 10/25/16.
  */
 
-var bodyParser = require('body-parser');
-var path = require('path');
-var logger = require('morgan');
-var errorHandler = require('errorhandler');
-var express = require('express');
-var fs = require('fs');
+const bodyParser = require('body-parser');
+const path = require('path');
+const logger = require('morgan');
+const errorHandler = require('errorhandler');
+const express = require('express');
+const fs = require('fs');
 
 module.exports = class Util {
 
@@ -43,11 +43,12 @@ module.exports = class Util {
         });
 
         return this.app;
-    }
+    };
 
-    configChaincode(peer, user, chaincodeUrl, callback) {
+    configChaincode(user, chaincodeUrl, callback) {
 
-        var chaincode, manual, peers, options;
+        let manual, peers;
+        let t = this;
 
         try{
             manual = JSON.parse(fs.readFileSync(path.join(__dirname, '../creds.json'), 'utf8'));
@@ -57,10 +58,27 @@ module.exports = class Util {
             callback(err);
         }
 
-        options = {
+        t.configOptions(0, peers, user, chaincodeUrl, function(err,cc){
+            if(err){
+                callback(err);
+            }else{
+                callback(null, cc);
+            }
+        });
+    };
+
+
+    configOptions(peer, peers, user, chaincodeUrl, callback){
+
+        let t = this;
+
+        let options = {
             network : {
                 peers : [peers[peer]],
-                users : [user]
+                users : [user],
+                options: {
+                    maxRetry: 1
+                }
             },
             chaincode : {
                 zip_url: 'https://github.com/ibm-blockchain/marbles-chaincode/archive/master.zip',
@@ -69,12 +87,23 @@ module.exports = class Util {
             }
         };
 
-        this.ibc.load(options, function(err, cc){
+        t.ibc.load(options, function(err, cc){
             if(err != null){
-                callback(err);
+                if(peer==3){
+                    callback(err);
+                }else{
+                    peer = peer + 1;
+                    t.configOptions(peer, peers, user, chaincodeUrl, function(err,cc){
+                        if(err != null){
+                            callback(err);
+                        }else{
+                            callback(null,cc);
+                        }
+                    });
+                }
             }else{
                 callback(null,cc);
             }
         });
-    };
+    }
 };

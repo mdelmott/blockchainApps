@@ -1,3 +1,54 @@
 h1 {
-    color : red;
+    margin-top: 0;
+    text-align: center;
+}
+
+.login{
+    background: url('../img/background.jpg') no-repeat;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.login-form{
+    width: 40%;
+    background-color: rgba(255,255,255,0.8);
+    margin: 50vh auto 0 auto;
+    vertical-align: middle;
+    padding: 26px;
+    border-radius: 2px;
+    font-size: 16px;
+    transform: translateY(-50%);
+}
+
+.btn-connect{
+    width: 100%;
+    margin: 12px 0 0 0;
+    border-radius: 2px;
+}
+
+.btn-peer,
+.btn-peer:hover,
+.btn-peer:focus,
+.btn-peer:active {
+    margin-bottom: 10px;
+    background: none;
+    border-radius: 1px;
+    color: #265a88;
+    width: 100%;
+}
+
+.txt-login{
+    width: 100%;
+    margin-bottom: 10px;
+    background: none;
+    border: 1px solid #265a88;
+    color: #265a88;
+    padding: 3px;
+}
+
+.error{
+    color: #8b0000;
 }
