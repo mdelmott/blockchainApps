@@ -1,20 +1,30 @@
 <form>
     <fieldset>
         <legend>Query</legend>
-        <label for="queryFunction"> Function : </label>
-        <input type="text" name="queryFunction" ng-model="queryObj.function">
         <label> Args : </label>
-        Arg 1 : <input type="text" ng-model="queryObj.args[0]">
+        Arg 1 : <input title="queryArg1" type="text" ng-model="queryObj.args[0]">
         <input type="submit" value="Query" ng-click="query()">
     </fieldset>
     <fieldset>
-        <legend>Invoke</legend>
-        <label for="invokeFunction"> Function : </label>
-        <input type="text" name="invokeFunction" ng-model="invokeObj.function">
+        <legend>Transaction</legend>
         <label> Args : </label>
-        Arg 1 : <input type="text" ng-model="invokeObj.args[0]">
-        Arg 2 : <input type="text" ng-model="invokeObj.args[1]">
-        Value : <input type="text" ng-model="invokeObj.args[2]">
-        <input type="submit" value="Invoke" ng-click="invoke()">
+        Arg 1 : <input title="transactionArg1" type="text" ng-model="transactionObj.args[1]">
+        Arg 2 : <input title="transactionArg2" type="text" ng-model="transactionObj.args[2]">
+        Value : <input title="transactionValue" type="text" ng-model="transactionObj.args[3]">
+        <input type="submit" value="Invoke" ng-click="invoke('transaction')">
+    </fieldset>
+    <fieldset>
+        <legend>Fusion</legend>
+        <label> Args : </label>
+        Arg 1 : <input title="fusionArg1" type="text" ng-model="fusionObj.args[1]">
+        Arg 2 : <input title="fusionArg2" type="text" ng-model="fusionObj.args[2]">
+        <input type="submit" value="Invoke" ng-click="invoke('fusion')">
+    </fieldset>
+    <fieldset>
+        <legend>Add</legend>
+        <label> Args : </label>
+        Arg 1 : <input title="addArg1" type="text" ng-model="addObj.args[1]">
+        Value : <input title="addValue" type="text" ng-model="addObj.args[2]">
+        <input type="submit" value="Invoke" ng-click="invoke('add')">
     </fieldset>
 </form>
