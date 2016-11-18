@@ -3,17 +3,17 @@
  */
 describe("App", function() {
 
-    var scope,
+    let scope,
         controller;
 
     beforeEach(function () {
         angular.mock.module('TestApp');
     });
 
-    describe('module1Ctrl', function () {
+    describe('loginCtrl', function () {
         beforeEach(inject(function ($rootScope, $controller) {
             scope = $rootScope.$new();
-            controller = $controller('module1Ctrl', {
+            controller = $controller('loginCtrl', {
                 '$scope': scope
             });
         }));
