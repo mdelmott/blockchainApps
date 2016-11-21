@@ -6,8 +6,7 @@ module.exports = function ($scope,
                            envService) {
 
     $scope.queryObj = {
-        function: "",
-        args: ["a"]
+        args: ["queryElement","a"]
     };
 
     $scope.transactionObj = {
@@ -27,8 +26,10 @@ module.exports = function ($scope,
         httpRequest.post(envService.read('serverUrl') + "query", $scope.queryObj)
             .then(function successCallback(response) {
                 console.log(response);
+                $scope.result = response.data;
             }, function errorCallback(error) {
                 console.log(error);
+                $scope.result = error;
             });
     };
 
@@ -44,8 +45,10 @@ module.exports = function ($scope,
         httpRequest.post(envService.read('serverUrl') + "invoke", $scope.invokeObj)
             .then(function successCallback(response) {
                 console.log(response);
+                $scope.result = "ok";
             }, function errorCallback(error) {
                 console.log(error);
+                $scope.result = error;
             });
     };
 };

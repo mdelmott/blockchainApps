@@ -6,10 +6,11 @@ require('angular-environment');
 require('./common/common');
 require('./login/login');
 require('./module2/module2');
+require('./table/table');
 require('./error/error');
 
 //Module APP
-angular.module('TestApp', ['common' ,'login', 'module2', 'error', 'environment'])
+angular.module('TestApp', ['common' ,'login', 'module2', 'table', 'error', 'environment'])
     .config(function(envServiceProvider) {
 
         envServiceProvider.config({

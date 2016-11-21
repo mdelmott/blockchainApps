@@ -1,0 +1,14 @@
+<form>
+    <fieldset>
+        <legend>Insert</legend>
+        <label> Args : </label>
+        Arg 1 : <input title="insertArg1" type="text" ng-model="insertObj.args[1]">
+        Arg 2 : <input title="insertArg2" type="text" ng-model="insertObj.args[2]">
+        Arg 3 : <input title="insertArg3" type="text" ng-model="insertObj.args[3]">
+        <input type="submit" value="Insert" ng-click="insert()">
+    </fieldset>
+    <fieldset>
+        <legend>Query</legend>
+        <input type="submit" value="Query" ng-click="query()">
+    </fieldset>
+</form>

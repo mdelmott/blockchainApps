@@ -16,7 +16,7 @@ module.exports = function ($scope,
         httpRequest.post(envService.read('serverUrl') + "deploy", $scope.deployObj)
             .then(function successCallback(response) {
                 console.log(response);
-                $location.path('/module2');
+                $location.path('/table');
             }, function errorCallback(error) {
                 console.log("Error : ");
                 console.log(error);

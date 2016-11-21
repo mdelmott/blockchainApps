@@ -2,7 +2,7 @@
     <fieldset>
         <legend>Query</legend>
         <label> Args : </label>
-        Arg 1 : <input title="queryArg1" type="text" ng-model="queryObj.args[0]">
+        Arg 1 : <input title="queryArg1" type="text" ng-model="queryObj.args[1]">
         <input type="submit" value="Query" ng-click="query()">
     </fieldset>
     <fieldset>
@@ -27,4 +27,5 @@
         Value : <input title="addValue" type="text" ng-model="addObj.args[2]">
         <input type="submit" value="Invoke" ng-click="invoke('add')">
     </fieldset>
+    <span ng-bind="result"></span>
 </form>
